@@ -12,6 +12,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This plugin was created to enhance your Gutenberg experience. 
 
+
+== Install ==
+wp plugin install https://github.com/thriveweb/gutenbetter-plugin/archive/refs/heads/main.zip --activate
+
 Features include...
 
 + Additional margins around blocks for better editing
