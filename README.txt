@@ -8,9 +8,6 @@ Stable tag: 6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-== Install ==
-wp plugin install https://github.com/thriveweb/gutenbetter-plugin/archive/refs/heads/main.zip --activate
-
 == Description ==
 
 This plugin was created to enhance your Gutenberg experience. 

@@ -145,13 +145,24 @@ function gutenbetter_settings_page() {
 				</div>
 
 				<?php 
-				$remove_block_directory = get_option('remove_block_directory', false); ?>
+				$remove_block_directory = get_option('remove_block_directory', true); ?>
 
 				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
 					<h3 style="margin-top: 0;">Block Directory</h3>
 					<label for="remove_block_directory">
 						<input type="checkbox" id="remove_block_directory" name="remove_block_directory" value="1" <?php checked($remove_block_directory, true); ?> />
 						Hide block directory from block sidebar?
+					</label>
+				</div>
+
+				<?php 
+				$force_preview_mode = get_option('force_preview_mode', true); ?>
+
+				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
+					<h3 style="margin-top: 0;">Preview Mode</h3>
+					<label for="force_preview_mode">
+						<input type="checkbox" id="force_preview_mode" name="force_preview_mode" value="1" <?php checked($force_preview_mode, true); ?> />
+						Force preview mode for ACF blocks?
 					</label>
 				</div>
 
@@ -167,6 +178,7 @@ function gutenbetter_settings_page() {
 function gutenbetter_register_settings() {
 	register_setting('gutenbetter_settings_group', 'disabled_gutenberg_post_types');
 	register_setting('gutenbetter_settings_group', 'remove_block_directory');
+	register_setting('gutenbetter_settings_group', 'force_preview_mode');
 }
 add_action('admin_init', 'gutenbetter_register_settings');
 
@@ -180,6 +192,17 @@ function gutenbetter_remove_block_directory_assets() {
 	}
 }
 add_action('init', 'gutenbetter_remove_block_directory_assets');
+
+/**
+ * Callback function for force_preview_mode plugin setting.
+ */
+function gutenbetter_force_preview_mode_assets() {
+	$force_preview_mode = get_option('force_preview_mode', false);
+	if ($force_preview_mode) {
+		wp_enqueue_script('gutenbetter-force-preview', plugin_dir_url( __FILE__ ) . 'admin/js/gutenbetter-force-preview.js', array( 'jquery', 'jquery-ui-resizable', 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-compose', 'wp-i18n' ),array(), true);
+	}
+}
+add_action('admin_enqueue_scripts', 'gutenbetter_force_preview_mode_assets');
 
 /**
  * Callback function for disabled_gutenberg_post_types plugin setting.
