@@ -84,16 +84,6 @@ h1.wp-block-post-title {
   display: none !important;
 }
 
-.interface-interface-skeleton__sidebar .interface-complementary-area,
-.interface-interface-skeleton__sidebar .interface-complementary-area__fill {
-  width: 100% !important;
-}
-
-.edit-post-layout:not(.is-sidebar-opened) .interface-interface-skeleton__sidebar,
-.edit-site-layout:not(.is-sidebar-opened) .interface-interface-skeleton__sidebar {
-  display: none;
-}
-
 .interface-interface-skeleton__sidebar.ui-resizable-resizing {
   position: relative !important;
 }
