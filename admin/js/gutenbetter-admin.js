@@ -106,8 +106,8 @@
 
       $sidebar.resizable({
         handles: 'w',
-        minWidth: 200,
-        maxWidth: 600,
+        minWidth: 280,
+        maxWidth: 700,
         resize: function (event, ui) {
           $(this).css({
             left: 'auto',
