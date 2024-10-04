@@ -127,7 +127,7 @@
         $sidebar.find('.ui-resizable-w').append('<div class="gutenbetter-resize-indicator"></div>');
       }
 
-      $sidebar.width(savedWidth || 300);
+      $sidebar.width(savedWidth || 280);
     }
 
     function updateSidebarVisibility() {
