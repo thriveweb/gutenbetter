@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Gutenbetter
  * Plugin URI:        https://thriveweb.com.au/the-lab/gutenbetter/
- * Description:       Handy improvements for the Gutenberg block editor such as post type support, hiding blocks, adjusting sidebar width, styling improvements, etc. 
+ * Description:       Handy improvements for the Gutenberg block editor interface such as post type support, hiding blocks, adjustable sidebar, and more.
  * Version:           1.0.0
  * Author:            Thrive Digital
  * Author URI:        https://thriveweb.com.au/
