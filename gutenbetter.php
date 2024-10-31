@@ -129,8 +129,8 @@ function gutenbetter_settings_page() {
 				?>
 
 				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
-					<h3 style="margin-top: 0;">Post Type Support</h3>
-					<p>Disable the Gutenberg editor on the below post types:</p>
+					<h3 style="margin-top: 0;">Post Type Compatibility</h3>
+					<p>Disable the Gutenberg editor for specific post types. This is useful for content that may be better suited for the Classic Editor:</p>
 					<?php
 					foreach ($post_types as $post_type) {
 						if ($post_type->name !== 'attachment') { // Exclude 'attachment' (Media)
@@ -148,10 +148,11 @@ function gutenbetter_settings_page() {
 				$remove_block_directory = get_option('remove_block_directory', true); ?>
 
 				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
-					<h3 style="margin-top: 0;">Block Directory</h3>
+					<h3 style="margin-top: 0;">Block Directory Visibility</h3>
+					<p>Show or hide the block directory in the block editor's sidebar which promotes additional blocks available for installation:</p>
 					<label for="remove_block_directory">
 						<input type="checkbox" id="remove_block_directory" name="remove_block_directory" value="1" <?php checked($remove_block_directory, true); ?> />
-						Hide block directory from block sidebar?
+						Hide the block directory in the block editor?
 					</label>
 				</div>
 
@@ -159,7 +160,8 @@ function gutenbetter_settings_page() {
 				$force_preview_mode = get_option('force_preview_mode', true); ?>
 
 				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
-					<h3 style="margin-top: 0;">Preview Mode</h3>
+					<h3 style="margin-top: 0;">ACF Block Preview Mode</h3>
+					<p>Force ACF (Advanced Custom Fields) blocks to load in preview mode by default, making it easier to see actual content layouts in the editor:</p>
 					<label for="force_preview_mode">
 						<input type="checkbox" id="force_preview_mode" name="force_preview_mode" value="1" <?php checked($force_preview_mode, true); ?> />
 						Force preview mode for ACF blocks?
