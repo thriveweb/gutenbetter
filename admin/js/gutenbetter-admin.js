@@ -86,6 +86,7 @@
     const sidebar_selector = '.interface-interface-skeleton__sidebar';
     const pinned_item_selector = '.interface-pinned-items button';
     const layout_selector = '.edit-post-layout, .edit-site-layout';
+    const close_button_selector = '.interface-interface-skeleton .components-button[aria-label="Close Settings"]';
 
     function initResizableSidebar() {
       const $sidebar = $(sidebar_selector);
@@ -139,6 +140,11 @@
 
     function setupEventListeners() {
       $('body').on('click', pinned_item_selector, updateSidebarVisibility);
+
+      // Listen for clicks on the close button to fully hide the sidebar
+      $('body').on('click', close_button_selector, function () {
+        $(layout_selector).removeClass('is-sidebar-opened');
+      });
     }
 
     function init() {
