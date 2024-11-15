@@ -62,15 +62,6 @@ h1.wp-block-post-title {
 
 /**
  * 
- * Hide ACF fields from block editor sidebar
- */
-
-.block-editor .editor-sidebar .acf-block-panel {
-  display: none !important;
-}
-
-/**
- * 
  * Change opacity for block set as 'hidden'
  */
 
