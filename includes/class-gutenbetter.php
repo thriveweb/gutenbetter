@@ -157,6 +157,15 @@ class Gutenbetter {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		$this->loader->add_action('admin_menu', $plugin_admin, 'gutenbetter_add_menu_page');
+		$this->loader->add_action('admin_init', $plugin_admin, 'gutenbetter_register_settings');
+		$this->loader->add_action('init', $plugin_admin, 'gutenbetter_remove_block_directory_assets');
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'gutenbetter_force_preview_mode_assets');
+		$this->loader->add_filter('use_block_editor_for_post_type', $plugin_admin, 'gutenbetter_post_type_support', 10, 2);
+		$this->loader->add_filter('render_block', $plugin_admin, 'gutenbetter_block_visibility', 10, 3);
+
+		$this->loader->add_filter('plugin_action_links_gutenbetter/gutenbetter.php', $plugin_admin, 'gutenbetter_plugin_settings_link');
+
 	}
 
 	/**
