@@ -154,7 +154,7 @@ class Gutenbetter_Admin {
 
 		if ( !current_user_can( 'manage_options' ) ) {
 			wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'gutenbetter' ));
-		} 
+	} 
 		?>
 		
 		<div class="wrap">
@@ -186,7 +186,7 @@ class Gutenbetter_Admin {
 					</div>
 
 					<?php 
-					$remove_block_directory = get_option('remove_block_directory', true); ?>
+					$remove_block_directory = boolval(get_option('remove_block_directory', true)); ?>
 
 					<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
 						<h3 style="margin-top: 0;"><?php echo esc_html__('Block Directory Visibility', 'gutenbetter'); ?></h3>
@@ -198,7 +198,7 @@ class Gutenbetter_Admin {
 					</div>
 
 					<?php 
-					$force_preview_mode = get_option('force_preview_mode', true); ?>
+					$force_preview_mode = boolval(get_option('force_preview_mode', true)); ?>
 
 					<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
 						<h3 style="margin-top: 0;"><?php echo esc_html__('ACF Block Preview Mode', 'gutenbetter'); ?></h3>
@@ -223,10 +223,25 @@ class Gutenbetter_Admin {
 	 */
 	public function gutenbetter_register_settings() {
 
-		register_setting('gutenbetter_settings_group', 'post_type_support');
-		register_setting('gutenbetter_settings_group', 'remove_block_directory');
-		register_setting('gutenbetter_settings_group', 'force_preview_mode');
+		register_setting('gutenbetter_settings_group', 'post_type_support', array('sanitize_callback' => array($this, 'sanitize_post_type_support')));
+    register_setting('gutenbetter_settings_group', 'remove_block_directory', array('sanitize_callback' => 'absint'));
+    register_setting('gutenbetter_settings_group', 'force_preview_mode', array('sanitize_callback' => 'absint'));
 
+	}
+
+	/**
+	 * Sanitize callback for post_type_support setting.
+	 * 
+	 * @since    1.0.0
+	 */
+
+	public function sanitize_post_type_support($input) {
+
+    if (!is_array($input)) {
+			return array();
+    }
+    return array_map('sanitize_key', $input);
+		
 	}
 
 	/**
