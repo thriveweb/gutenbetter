@@ -26,10 +26,6 @@
  */
 
 // If uninstall not called from WordPress, then exit.
-if ( !defined( 'WP_UNINSTALL_PLUGIN' ) || 
-    !WP_UNINSTALL_PLUGIN || 
-    basename( dirname(__FILE__) ) !== 'gutenbetter' ) {
-    exit;
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+	exit;
 }
-
-delete_option( 'gutenbetter_settings' );
