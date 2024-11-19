@@ -146,71 +146,134 @@ class Gutenbetter_Admin {
 	}
 
 	/**
+	 * Register and save form values within plugin settings page.
+	 * 
+	 * @since    1.0.0
+	 */
+	public function gutenbetter_register_settings() {
+		register_setting(
+			'gutenbetter_settings_group',
+			'post_type_support',
+			array(
+				'sanitize_callback' => array($this, 'sanitize_post_type_support'),
+				'default' => array()
+			)
+		);
+
+		register_setting(
+			'gutenbetter_settings_group',
+			'remove_block_directory',
+			array(
+				'sanitize_callback' => array($this, 'sanitize_checkbox'),
+				'default' => true
+			)
+		);
+
+		register_setting(
+			'gutenbetter_settings_group',
+			'force_preview_mode',
+			array(
+				'sanitize_callback' => array($this, 'sanitize_checkbox'),
+				'default' => true
+			)
+		);
+	}
+
+	/**
+	 * Sanitize the post type support array.
+	 *
+	 * @param array $input The input array to sanitize.
+	 * @return array Sanitized array.
+	 */
+	public function sanitize_post_type_support($input) {
+		if (!is_array($input)) {
+			return array();
+		}
+
+		$valid_post_types = array_keys(get_post_types(array('public' => true)));
+		return array_filter(array_map('sanitize_key', $input), function($post_type) use ($valid_post_types) {
+			return in_array($post_type, $valid_post_types, true);
+		});
+	}
+
+	/**
+	 * Sanitize checkbox inputs.
+	 *
+	 * @param mixed $input The input to sanitize.
+	 * @return bool
+	 */
+	public function sanitize_checkbox($input) {
+		return !empty($input);
+	}
+
+	/**
 	 * Callback function to render form for all plugin settings.
 	 * 
 	 * @since    1.0.0
 	 */
 	function gutenbetter_settings_page() {
 
-		if ( !current_user_can( 'manage_options' ) ) {
-			wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'gutenbetter' ));
-		} 
+		if (!current_user_can('manage_options')) {
+			wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'gutenbetter'));
+		}
 		?>
 		
 		<div class="wrap">
-				<h1><?php echo esc_html__('Gutenbetter Settings', 'gutenbetter'); ?></h1><br>
-				<form method="post" action="<?php echo esc_url(admin_url('options.php')); ?>">
-					<?php 
-					settings_fields('gutenbetter_settings_group');
-					do_settings_sections('gutenbetter-settings');
+			<h1><?php echo esc_html__('Gutenbetter Settings', 'gutenbetter'); ?></h1><br>
+			<form method="post" action="<?php echo esc_url(admin_url('options.php')); ?>">
+				<?php 
+				settings_fields('gutenbetter_settings_group');
+				do_settings_sections('gutenbetter-settings');
 
-					$post_types = get_post_types(array('public' => true), 'objects');
-					$disabled_post_types = array_map('sanitize_key', (array) get_option('post_type_support', array()));
+				$post_types = get_post_types(array('public' => true), 'objects');
+				$disabled_post_types = array_map('sanitize_key', (array) get_option('post_type_support', array()));
+				?>
+
+				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
+					<h3 style="margin-top: 0;"><?php echo esc_html__('Post Type Compatibility', 'gutenbetter'); ?></h3>
+					<p><?php echo esc_html__('Disable the Gutenberg editor for specific post types. This is useful for content that may be better suited for the Classic Editor:', 'gutenbetter'); ?></p>
+					<?php
+					foreach ($post_types as $post_type) {
+						if ($post_type->name !== 'attachment') {
+							$post_type_name = esc_attr($post_type->name);
+							$is_checked = in_array($post_type_name, $disabled_post_types, true);
+							?>
+							<label style="display: block; margin-bottom: 10px;">
+								<input type="checkbox" name="post_type_support[]" value="<?php echo $post_type_name; ?>" <?php checked($is_checked); ?> />
+								<?php echo esc_html($post_type->label); ?>
+							</label>
+							<?php
+						}
+					} 
 					?>
+				</div>
 
-					<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
-						<h3 style="margin-top: 0;"><?php echo esc_html__('Post Type Compatibility', 'gutenbetter'); ?></h3>
-						<p><?php echo esc_html__('Disable the Gutenberg editor for specific post types. This is useful for content that may be better suited for the Classic Editor:', 'gutenbetter'); ?></p>
-						<?php
-						foreach ($post_types as $post_type) {
-							if ($post_type->name !== 'attachment') { // Exclude 'attachment' (Media)
-								?>
-								<label style="display: block; margin-bottom: 10px;">
-									<input type="checkbox" name="post_type_support[]" value="<?php echo esc_attr($post_type->name); ?>" <?php checked(in_array($post_type->name, $disabled_post_types)); ?> />
-									<?php echo esc_html($post_type->label); ?>
-								</label>
-								<?php
-							}
-						} 
-						?>
-					</div>
+				<?php 
+				$remove_block_directory = (bool) get_option('remove_block_directory', true);
+				$force_preview_mode = (bool) get_option('force_preview_mode', true);
+				?>
 
-					<?php 
-					$remove_block_directory = get_option('remove_block_directory', true); ?>
+				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
+					<h3 style="margin-top: 0;"><?php echo esc_html__('Block Directory Visibility', 'gutenbetter'); ?></h3>
+					<p><?php echo esc_html__('Show or hide the block directory in the block editor sidebar which promotes additional blocks available for installation:', 'gutenbetter'); ?></p>
+					<label for="remove_block_directory">
+						<input type="checkbox" id="remove_block_directory" name="remove_block_directory" value="1" <?php checked($remove_block_directory); ?> />
+						<?php echo esc_html__('Hide the block directory in the block editor?', 'gutenbetter'); ?>
+					</label>
+				</div>
 
-					<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
-						<h3 style="margin-top: 0;"><?php echo esc_html__('Block Directory Visibility', 'gutenbetter'); ?></h3>
-						<p><?php echo esc_html__('Show or hide the block directory in the block editor sidebar which promotes additional blocks available for installation:', 'gutenbetter'); ?></p>
-						<label for="remove_block_directory">
-							<input type="checkbox" id="remove_block_directory" name="remove_block_directory" value="1" <?php checked($remove_block_directory, true); ?> />
-							<?php echo esc_html__('Hide the block directory in the block editor?', 'gutenbetter'); ?>
-						</label>
-					</div>
+				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
+					<h3 style="margin-top: 0;"><?php echo esc_html__('ACF Block Preview Mode', 'gutenbetter'); ?></h3>
+					<p><?php echo esc_html__('Force ACF (Advanced Custom Fields) blocks to load in preview mode by default, making it easier to see actual content layouts in the editor:', 'gutenbetter'); ?></p>
+					<label for="force_preview_mode">
+						<input type="checkbox" id="force_preview_mode" name="force_preview_mode" value="1" <?php checked($force_preview_mode); ?> />
+						<?php echo esc_html__('Force preview mode for ACF blocks?', 'gutenbetter'); ?>
+					</label>
+				</div>
 
-					<?php 
-					$force_preview_mode = get_option('force_preview_mode', true); ?>
-
-					<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
-						<h3 style="margin-top: 0;"><?php echo esc_html__('ACF Block Preview Mode', 'gutenbetter'); ?></h3>
-						<p><?php echo esc_html__('Force ACF (Advanced Custom Fields) blocks to load in preview mode by default, making it easier to see actual content layouts in the editor:', 'gutenbetter'); ?></p>
-						<label for="force_preview_mode">
-							<input type="checkbox" id="force_preview_mode" name="force_preview_mode" value="1" <?php checked($force_preview_mode, true); ?> />
-							<?php echo esc_html__('Force preview mode for ACF blocks?', 'gutenbetter'); ?>
-						</label>
-					</div>
-
-					<?php submit_button(); ?>
-				</form>
+				<?php wp_nonce_field('gutenbetter_settings_action', 'gutenbetter_settings_nonce'); ?>
+				<?php submit_button(); ?>
+			</form>
 		</div>
 		<?php
 
