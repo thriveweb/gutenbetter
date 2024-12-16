@@ -87,6 +87,7 @@
     const sidebar_width_key = 'gutenbetter_sidebar_width';
     const sidebar_selector = '.interface-interface-skeleton__sidebar';
     const pinned_item_selector = '.interface-pinned-items button';
+    const close_sidebar_selector = '.editor-sidebar__panel-tabs button[aria-label="Close Settings"]';
     const layout_selector = '.edit-post-layout, .edit-site-layout';
 
     function initResizableSidebar() {
@@ -141,6 +142,14 @@
 
     function setupEventListeners() {
       $('body').on('click', pinned_item_selector, updateSidebarVisibility);
+
+      $('body').on('click', close_sidebar_selector, function () {
+        const $sidebar = $(sidebar_selector);
+        if ($sidebar.length) {
+          $sidebar.hide();
+          $(layout_selector).removeClass('is-sidebar-opened');
+        }
+      });
     }
 
     function init() {
