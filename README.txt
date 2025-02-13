@@ -42,4 +42,4 @@ No, Gutenbetter doesn’t add new blocks, but rather focuses on enhancing the ex
 == Changelog ==
 
 = 1.0 =
-* Initial release of Gutenbetter with improvements such as post type support, hiding blocks, adjustable sidebar, and more.
+* Initial release of Gutenbetter with improvements to the block editor such as post type support, hiding blocks, adjustable sidebar, and more.
