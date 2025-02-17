@@ -206,12 +206,12 @@ class Gutenbetter {
 				</div>
 
 				<?php 
-				$remove_block_directory = boolval( get_option( 'remove_block_directory', true ) ); ?>
+				$remove_block_directory = boolval( get_option( 'remove_block_directory', 1 ) ); ?>
 				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
 					<h3 style="margin-top: 0;"><?php echo esc_html__( 'Block Directory Visibility', 'gutenbetter' ); ?></h3>
 					<p><?php echo esc_html__( 'Show or hide the block directory in the block editor sidebar which promotes additional blocks available for installation:', 'gutenbetter' ); ?></p>
 					<label for="remove_block_directory">
-						<input type="checkbox" id="remove_block_directory" name="remove_block_directory" value="1" <?php checked( $remove_block_directory, true ); ?> />
+						<input type="checkbox" id="remove_block_directory" name="remove_block_directory" value="1" <?php checked( $remove_block_directory, 1 ); ?> />
 						<?php echo esc_html__( 'Hide the block directory in the block editor?', 'gutenbetter' ); ?>
 					</label>
 				</div>
@@ -245,9 +245,9 @@ class Gutenbetter {
 	 */
 	public function gutenbetter_register_settings() {
 
-		register_setting( 'gutenbetter_settings_group', 'post_type_support', array( 'sanitize_callback' => array( $this, 'sanitize_post_type_support' ) ) );
-    register_setting( 'gutenbetter_settings_group', 'remove_block_directory', array( 'sanitize_callback' => 'absint' ) );
-    register_setting( 'gutenbetter_settings_group', 'force_preview_mode', array( 'sanitize_callback' => 'absint' ) );
+		register_setting( 'gutenbetter_settings_group', 'post_type_support', 'sanitize_post_type_support' );
+    register_setting( 'gutenbetter_settings_group', 'remove_block_directory', 'absint' );
+    register_setting( 'gutenbetter_settings_group', 'force_preview_mode', 'absint' );
 
 	}
 
@@ -262,6 +262,7 @@ class Gutenbetter {
     if ( !is_array( $input ) ) {
 			return array();
     }
+		
     return array_map( 'sanitize_key', $input );
 		
 	}
@@ -273,7 +274,7 @@ class Gutenbetter {
 	 */
 	public function gutenbetter_remove_block_directory_assets() {
 
-		if ( get_option( 'remove_block_directory', false ) ) {
+		if ( get_option( 'remove_block_directory', 0 ) ) {
 			remove_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 		}
 
