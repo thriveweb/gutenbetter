@@ -217,13 +217,13 @@ class Gutenbetter {
 				</div>
 
 				<?php 
-				$force_preview_mode = boolval( get_option( 'force_preview_mode', true ) ); ?>
+				$force_preview_mode = boolval( get_option( 'force_preview_mode', 1 ) ); ?>
 				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
 					<h3 style="margin-top: 0;"><?php echo esc_html__( 'ACF Block Preview Mode', 'gutenbetter' ); ?></h3>
 					<p><?php echo esc_html__( 'Force ACF (Advanced Custom Fields) blocks to load in preview mode by default, making it easier to see actual content layouts in the editor:', 'gutenbetter' ); ?></p>
 
 					<label for="force_preview_mode">
-						<input type="checkbox" id="force_preview_mode" name="force_preview_mode" value="1" <?php checked( $force_preview_mode, true ); ?> />
+						<input type="checkbox" id="force_preview_mode" name="force_preview_mode" value="1" <?php checked( $force_preview_mode, 1 ); ?> />
 						<?php echo esc_html__( 'Force preview mode for ACF blocks?', 'gutenbetter' ); ?>
 					</label>
 				</div>
@@ -287,7 +287,7 @@ class Gutenbetter {
 	 */
 	public function gutenbetter_force_preview_mode_assets() {
 
-		if ( !get_option( 'force_preview_mode', false ) ) {
+		if ( !get_option( 'force_preview_mode', 0 ) ) {
 			return;
 		}
 
@@ -314,7 +314,7 @@ class Gutenbetter {
 			$disabled_post_types = array();
 		}
 		
-		return in_array( $post_type, $disabled_post_types ) ? false : $current_status;;
+		return in_array( $post_type, $disabled_post_types ) ? 0 : $current_status;;
 
 	}
 
