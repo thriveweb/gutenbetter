@@ -245,12 +245,25 @@ class Gutenbetter {
 	 */
 	public function gutenbetter_register_settings() {
 
-		register_setting( 'gutenbetter_settings_group', 'post_type_support', array( 'sanitize_callback' => array( $this, 'sanitize_post_type_support' ) ) );
-    register_setting( 'gutenbetter_settings_group', 'remove_block_directory', array( 'sanitize_callback' => 'absint' ) );
-    register_setting( 'gutenbetter_settings_group', 'force_preview_mode', array( 'sanitize_callback' => 'absint' ) );
+    register_setting(
+			'gutenbetter_settings_group',
+			'post_type_support',
+			array( 'sanitize_callback' => array( $this, 'sanitize_post_type_support' ) )
+    );
 
-	}
+    register_setting( 
+			'gutenbetter_settings_group', 
+			'remove_block_directory', 
+			array( 'sanitize_callback' => 'absint' ) 
+    );
 
+    register_setting( 
+			'gutenbetter_settings_group', 
+			'force_preview_mode', 
+			array( 'sanitize_callback' => 'absint' ) 
+    );
+
+}
 	/**
 	 * Sanitize callback for post_type_support setting.
 	 * 
