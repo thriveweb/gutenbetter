@@ -239,7 +239,7 @@ class Gutenbetter {
 					<p><?php echo esc_html__( 'Allow ACF (Advanced Custom Fields) fields to appear in the sidebar when an ACF block is selected:', 'gutenbetter' ); ?></p>
 
 					<label for="acf_sidebar_fields">
-						<input type="checkbox" id="acf_sidebar_fields" name="acf_sidebar_fields" value="1" <?php checked( $acf_sidebar_fields, 1 ); ?> />
+						<input type="checkbox" id="acf_sidebar_fields" name="acf_sidebar_fields" value="0" <?php checked( $acf_sidebar_fields, 0 ); ?> />
 						<?php echo esc_html__( 'Show ACF fields in the sidebar?', 'gutenbetter' ); ?>
 					</label>
 				</div>
