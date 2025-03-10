@@ -255,6 +255,30 @@ class Gutenbetter {
 	}
 
 	/**
+	 * Set default form values for plugin activation.
+	 *
+	 * @since    1.0.0
+	 * @static
+	 */
+	public static function activate() {
+		if (get_option('post_type_support') === false) {
+			add_option('post_type_support', array());
+		}
+		
+		if (get_option('remove_block_directory') === false) {
+				add_option('remove_block_directory', 1);
+		}
+		
+		if (get_option('force_preview_mode') === false) {
+			add_option('force_preview_mode', 1);
+		}
+		
+		if (get_option('acf_sidebar_fields') === false) {
+			add_option('acf_sidebar_fields', 1);
+		}
+	}
+
+	/**
 	 * Register and save form values within plugin settings page.
 	 * 
 	 * @since    1.0.0

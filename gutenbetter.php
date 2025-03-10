@@ -41,6 +41,11 @@ define( 'GUTENBETTER_VERSION', '1.0.1' );
 require plugin_dir_path( __FILE__ ) . 'includes/class-gutenbetter.php';
 
 /**
+ * Implement the activation and deactivation functions.
+ */
+register_activation_hook(__FILE__, array('Gutenbetter', 'activate'));
+
+/**
  * Begins execution of the plugin.
  *
  * Since everything within the plugin is registered via hooks,
