@@ -233,13 +233,13 @@ class Gutenbetter {
 				</div>
 
 				<?php 
-				$acf_sidebar_fields = boolval( get_option( 'acf_sidebar_fields', 0 ) ); ?>
+				$acf_sidebar_fields = boolval( get_option( 'acf_sidebar_fields', 1 ) ); ?>
 				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
 					<h3 style="margin-top: 0;"><?php echo esc_html__( 'ACF Fields in Sidebar', 'gutenbetter' ); ?></h3>
 					<p><?php echo esc_html__( 'Allow ACF (Advanced Custom Fields) fields to appear in the sidebar when an ACF block is selected:', 'gutenbetter' ); ?></p>
 
 					<label for="acf_sidebar_fields">
-						<input type="checkbox" id="acf_sidebar_fields" name="acf_sidebar_fields" value="0" <?php checked( $acf_sidebar_fields, 0 ); ?> />
+						<input type="checkbox" id="acf_sidebar_fields" name="acf_sidebar_fields" value="1" <?php checked( $acf_sidebar_fields, 1 ); ?> />
 						<?php echo esc_html__( 'Show ACF fields in the sidebar?', 'gutenbetter' ); ?>
 					</label>
 				</div>
@@ -258,6 +258,7 @@ class Gutenbetter {
 	 * Register and save form values within plugin settings page.
 	 * 
 	 * @since    1.0.0
+	 * @modified 1.0.1
 	 */
 	public function gutenbetter_register_settings() {
 
@@ -325,7 +326,7 @@ class Gutenbetter {
 	 */
 	public function gutenbetter_acf_sidebar_fields_css() {
 
-		if ( get_option( 'acf_sidebar_fields', 0 ) ) {
+		if ( !get_option( 'acf_sidebar_fields', 0 ) ) {
 			$custom_css = ".block-editor .acf-block-panel { display: none !important; }";
 			wp_add_inline_style( 'wp-block-editor', $custom_css );
 		}
