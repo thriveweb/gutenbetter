@@ -22,6 +22,7 @@ Features
 + Dynamic Sidebar Resizing: Adjust the block editor sidebar width to your liking, making editing smoother and more flexible.
 + Hide Blocks from Frontend: Temporarily remove active blocks from the frontend, letting you work in private without deleting content.
 + Force Preview Mode for ACF Blocks: Automatically load ACF blocks in preview mode so you can edit without unexpected surprises.
++ Show ACF fields in sidebar: Allow ACF fields of any selected block to be edited in the sidebar.
 + Hide Block Directory: Keep your block search focused by hiding the block directory and reducing clutter.
 
 == Installation ==
