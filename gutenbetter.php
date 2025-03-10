@@ -16,7 +16,7 @@
  * Plugin Name:       Gutenbetter
  * Plugin URI:        https://thriveweb.com.au/the-lab/gutenbetter/
  * Description:       Handy improvements for the Gutenberg block editor interface such as post type support, hiding blocks, adjustable sidebar, and more.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Thrive Digital
  * Author URI:        https://thriveweb.com.au/
  * License:           GPL-2.0+
@@ -30,11 +30,9 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
+ * Current plugin version.
  */
-define( 'GUTENBETTER_VERSION', '1.0.0' );
+define( 'GUTENBETTER_VERSION', '1.0.1' );
 
 /**
  * The core plugin class that is used to define internationalization,

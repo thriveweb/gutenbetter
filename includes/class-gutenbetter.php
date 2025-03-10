@@ -83,6 +83,7 @@ class Gutenbetter {
 	 * Register all of the hooks related to the plugin functionality.
 	 *
 	 * @since    1.0.0
+	 * @modified 1.0.1
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
@@ -96,6 +97,8 @@ class Gutenbetter {
 		$this->loader->add_action( 'init', $this, 'gutenbetter_remove_block_directory_assets' );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $this, 'gutenbetter_force_preview_mode_assets' );
+
+		$this->loader->add_action( 'enqueue_block_editor_assets', $this, 'gutenbetter_acf_sidebar_fields_css' );
 
 		$this->loader->add_filter( 'use_block_editor_for_post_type', $this, 'gutenbetter_post_type_support', 10, 2 );
 
@@ -167,6 +170,7 @@ class Gutenbetter {
 	 * Callback function to render form for all plugin settings.
 	 * 
 	 * @since    1.0.0
+	 * @modified 1.0.1
 	 */
 	function gutenbetter_settings_page() {
 
@@ -228,6 +232,18 @@ class Gutenbetter {
 					</label>
 				</div>
 
+				<?php 
+				$acf_sidebar_fields = boolval( get_option( 'acf_sidebar_fields', 1 ) ); ?>
+				<div class="postbox" style="padding: 20px; margin-bottom: 20px;">
+					<h3 style="margin-top: 0;"><?php echo esc_html__( 'ACF Fields in Sidebar', 'gutenbetter' ); ?></h3>
+					<p><?php echo esc_html__( 'Allow ACF (Advanced Custom Fields) fields to appear in the sidebar when an ACF block is selected:', 'gutenbetter' ); ?></p>
+
+					<label for="acf_sidebar_fields">
+						<input type="checkbox" id="acf_sidebar_fields" name="acf_sidebar_fields" value="1" <?php checked( $acf_sidebar_fields, 1 ); ?> />
+						<?php echo esc_html__( 'Show ACF fields in the sidebar?', 'gutenbetter' ); ?>
+					</label>
+				</div>
+
 				<?php submit_button(); ?>
 
 			</form>
@@ -248,6 +264,7 @@ class Gutenbetter {
 		register_setting( 'gutenbetter_settings_group', 'post_type_support', 'sanitize_post_type_support' );
     register_setting( 'gutenbetter_settings_group', 'remove_block_directory', 'absint' );
     register_setting( 'gutenbetter_settings_group', 'force_preview_mode', 'absint' );
+    register_setting( 'gutenbetter_settings_group', 'acf_sidebar_fields', 'absint' );
 
 	}
 
@@ -298,6 +315,20 @@ class Gutenbetter {
 			$this->version,
 			true
 		);
+
+	}
+
+	/**
+	 * Callback function for acf_sidebar_fields plugin setting.
+	 * 
+	 * @since    1.0.1
+	 */
+	public function gutenbetter_acf_sidebar_fields_css() {
+
+		if ( !get_option( 'acf_sidebar_fields', 0 ) ) {
+			$custom_css = ".block-editor .acf-block-panel { display: none !important; }";
+			wp_add_inline_style( 'wp-block-editor', $custom_css );
+		}
 
 	}
 
